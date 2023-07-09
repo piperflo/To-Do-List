@@ -1,0 +1,184 @@
+*{
+    margin: 0;
+    /*border: 2px solid red;*/
+}
+html, body{
+    height: 100%;
+    margin: 0;
+}
+#header{
+    display: flex;
+    font-size: 30px;
+    align-items: center;
+    padding: 20px;
+    background-image: linear-gradient(to right, rgba(143, 76, 76, 0), rgb(77, 52, 52));
+    width: 100%;
+}
+#content{
+    height: 100%;
+
+    
+}
+span{
+    font-size: 18px;
+}
+#body{
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+    
+}
+
+#side-bar > div > img{
+    width: 20px;
+}
+
+#side-bar > div{
+    display: flex;
+    /*height: 30px;*/
+    padding: 10px;
+    gap: 10px;
+}
+#project-list > div{
+    display: flex;
+    /*height: 30px;*/
+    padding-bottom: 20px;
+    gap: 10px;
+}
+#project-list > div > img{
+    width: 20px;
+}
+.image{
+    width: 400px;
+    height: 200px;
+}
+#project-list{
+    padding: 20px;
+    gap: 15px;
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+}
+#side-bar{
+    background-color: #D8D8D8;
+    padding: 20px;
+    gap: 15px;
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+}
+
+.tabs:hover{
+    background-color: #bdafaf;
+    cursor: pointer;
+}
+.project:hover{
+    background-color: #886464;
+    cursor: pointer;
+}
+.modal-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    overflow: auto;
+    display: none;
+    align-self: flex-end;
+}
+#taskContainer{
+    display: flex;
+    flex-direction: column;
+    margin: 30px;
+    gap: 20px;
+}
+#modal-form2{
+    display: flex;
+    flex-direction: column;
+    margin-left: 60px;
+}
+h2{
+    font-size: 50px;
+}
+#projectHeader{
+    padding-bottom: 20px;
+}
+#addTaskButton{
+    display: flex;
+    font-size: 20px;
+    justify-content: center;
+    align-items: center;
+}
+#addTaskButtonContainer{
+    display: flex;
+    font-size: 20px;
+    justify-content: center;
+    align-items: center;
+}
+#addTaskContainer{
+    display: flex;
+    align-items: center;
+    height: 50px;
+    border-radius: 10px;
+    flex-direction: row;
+}
+#taskList{
+    display: flex;
+    align-items: center;  
+    border-radius: 10px;
+    flex-direction: column;
+    gap: 20px;
+    
+}
+#addTaskContainer > img{
+    display: flex;
+    padding-right: 20px;
+    width: 25px;
+    font-weight: bold;
+}
+#addTaskContainer:hover{
+    background-color: #bdafaf;
+    cursor: pointer;
+}
+#main{
+    height: 100%;
+    display:flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+input{
+    height: 30px;
+}
+#projects-heading{
+    font-weight:bold;
+    font-size: 30px;
+}
+#taskList > div{
+    display: flex;
+    background-color: #D8D8D8;
+    font-size: 30px;
+    border-radius: 10px;
+    height: 60px;
+    padding-left: 10px;
+    align-items: center;
+    width: 100%;
+}
+.buttons{
+    display: flex;
+    padding-top: 10px;
+    gap: 18px;
+}
+button:hover{
+    cursor: pointer;
+}
+button{
+    width: 80px;
+    padding: 10px;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+
