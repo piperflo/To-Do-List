@@ -1,6 +1,5 @@
 //import { createHeader } from "./header";
 import { addProjects, getProjectName} from "./addProject";
-import { createToDo, createForm } from "./createToDos";
 import { addTaskToContainer } from "./addTask";
 
 import './style.css';
@@ -15,12 +14,21 @@ const projectList = document.getElementById("project-list");
 const header = document.getElementById("projectHeader");
 const taskList = document.getElementById("taskList");
 const addTaskContainer = document.getElementById("addTaskContainer");
+//const deleteButtons = document.getElementsByClassName("delete");
 
 var projects = document.querySelectorAll(".project");
 
 var p = document.querySelectorAll(".project");
 var addTask ;
 var closeTask ;
+
+var items;
+var itemsArray = [];
+
+
+var all = document.getElementById("all");
+var inComplete = document.getElementById("incomplete");
+var complete = document.getElementById("complete");
 
 var taskInfo = {
     title: '',
@@ -32,21 +40,51 @@ close.addEventListener("click", closeForm);
 add.addEventListener("click", addP);
 addTaskContainer.addEventListener("click", openTaskFormContainer);
 
+all.addEventListener("click", showAll);
+//all.addEventListener("click", showAll);
+
+
 modalForm.style.display = "none";
 modalForm1.style.display = "none";
 
+
+
 upDateTaskContainer("Default");
+
+function showAll(){
+    upDateTaskContainer("All");
+    const taskList = document.getElementById("taskList");
+    Object.keys(localStorage).forEach((key) => {
+        items = JSON.parse(localStorage.getItem(key));
+        itemsArray.push(key);
+        for(let i = 0; i < items.task.length; i++){
+            taskList.appendChild(addTaskToContainer(items.task[i]));
+            console.log(items.task[i]);
+        }
+    });
+}
+
 
 function addP(event){
     event.preventDefault();
-    //const taskContainer = document.getElementById("taskContainer");
+    const project = document.getElementById("input").value;
+    var emptyObj = {
+        title: project,
+        task: []
+    }
+    if(project == ""){
+        alert("No input");
+        return
+    }
     modalForm.style.display = "none";
 
-    projectList.appendChild(addProjects());
-    
-    //projects = document.querySelectorAll(".project");
-    const project = document.getElementById("input").value;
+    projectList.appendChild(addProjects(project));
+    const taskList = document.getElementById("taskList");
+    taskList.replaceChildren();
     upDateTaskContainer(project);
+    //projects = document.querySelectorAll(".project");
+    //const project = document.getElementById("input").value;
+    localStorage.setItem(project, JSON.stringify(emptyObj));
 
     
 }
@@ -63,167 +101,159 @@ function openProjectForm(event){
 }
 
 function upDateTaskContainer(name){
-    console.log("Updating header");
+    //console.log("Updating header");
     header.textContent = name;
 }
 
 function openTaskFormContainer(event){
-    console.log("Opening task container");
-    addTask = document.getElementById("addTask");
-    closeTask = document.getElementById("cancelTask");
+    //console.log("Opening task container");
     modalForm1.style.display = "flex";
 }
 
+function fillProjectList(){
+    for(let i = 0; i < itemsArray.length; i++){
+        console.log("Filling projects");
+        console.log(itemsArray[i]);
+        projectList.appendChild(addProjects(itemsArray[i].title));
+        //console.log(itemsArray[i].title);
+    } 
+}
+display();
+//fillProjectList()
+function display(){
+    Object.keys(localStorage).forEach((key) => {
+        items = JSON.parse(localStorage.getItem(key));
+        itemsArray.push(key);
+        //console.log(key);
+        projectList.appendChild(addProjects(items.title));
+        //console.log(items);
+        //var k = localStorage.getItem(key);
+    });
+}
 
+function deleteTask(taskToDelete, taskObj){
+    console.log(taskObj.task);
+    for( var i = 0; i < taskObj.task.length; i++){ 
+    
+        if ( taskObj.task[i] === taskToDelete) {     
+            taskObj.task.splice(i, 1); 
+            localStorage.setItem(taskObj.title, JSON.stringify(taskObj));
+            //const items = { ...localStorage };
+            //console.log(items);
+            var task = document.getElementById(taskToDelete);
+            task.outerHTML = "";
+            break
+        }
+    
+    }
+    //console.log(task);
+    //console.log(document.getElementById(task));
+    //console.log(task.textContent);
 
-localStorage.clear();
+    //task.remove();
+}
+
+const it = { ...localStorage };
+console.log(it);
+/*
+ Object.keys(localStorage).forEach((key) => {
+    var items = JSON.parse(localStorage.getItem(key));
+    console.log(items);
+
+});
+*///////////////////////////////////////////////////////////////////////////////////
+//localStorage.clear();
 const today = "today";
 const tomorrow = "tomorrow";
 
-var taskInfo = {
-    title: '',
-    task: []
+function setProjects(name){
+
 }
-//taskInfo.title = today;
-//taskInfo.title = tomorrow;
-//taskInfo.task.push(today);
-//taskInfo.task.push(tomorrow);
+
 function setTaskInfo(name, task){
     taskInfo.title = name;
     taskInfo.task.push(task);
     localStorage.setItem(name, JSON.stringify(taskInfo));
 }
 
-function setHeader(name) {
-    taskInfo.title = name;
-    localStorage.setItem(name, JSON.stringify(taskInfo.title));
-
-    //localStorage.setItem("tasks", document.getElementById("font").value);
-}
-
-function setTasks(task) {
-    taskInfo.task.push(task);
-    localStorage.setItem(task, JSON.stringify(taskInfo));
-
-    //localStorage.setItem("tasks", document.getElementById("font").value);
-}
-
-
-setTaskInfo(today, "Task");
-setTaskInfo(today, "Task2");
-setTaskInfo(today, "Task3");
-
-setTaskInfo(tomorrow, "TaskIn");
-setTaskInfo(tomorrow, "TaskOut");
-var t = JSON.parse(localStorage.getItem(today));
-console.log(t);
-
-var ts = JSON.parse(localStorage.getItem(tomorrow));
-console.log(ts);
-
-const items = { ...localStorage };
-console.log(items);
-
-/*
-setHeader(today);
-setTasks("Task");
-var t = JSON.parse(localStorage.getItem(today));
-console.log(t);
-
-setHeader(tomorrow);
-setTasks("Task2");
-var ts = JSON.parse(localStorage.getItem(tomorrow));
-console.log(ts);
-*/
-//var t = JSON.parse(localStorage.getItem(today));
-//var ts = JSON.parse(localStorage.getItem(tomorrow));
-
-//console.log(t);
-//console.log(ts);
-
-/*
-function storageAvailable(type) {
-    let storage;
-    try {
-      storage = window[type];
-      const x = "__storage_test__";
-      storage.setItem(x, x);
-      storage.removeItem(x);
-      return true;
-    } catch (e) {
-      return (
-        e instanceof DOMException &&
-        // everything except Firefox
-        (e.code === 22 ||
-          // Firefox
-          e.code === 1014 ||
-          // test name field too, because code might not be present
-          // everything except Firefox
-          e.name === "QuotaExceededError" ||
-          // Firefox
-          e.name === "NS_ERROR_DOM_QUOTA_REACHED") &&
-        // acknowledge QuotaExceededError only if there's something already stored
-        storage &&
-        storage.length !== 0
-      );
-    }
-  }
-
-  if (storageAvailable("localStorage")) {
-    // Yippee! We can use localStorage awesomeness
-  } else {
-    // Too bad, no localStorage for us
-  }
-  */
-/*
-document.addEventListener("click", (e) => {
-    //console.log("Entered Side-bar");
-    //arrClass = document.querySelectorAll(".project");
-    projects = document.querySelectorAll(".project");
-    console.log(projects);
-    //projects = document.getElementsByClassName("project");
-});
-*/
 
 document.querySelectorAll(".project")
   .forEach(function(p) {
     p.addEventListener("click", function() {
         projects = document.querySelectorAll(".project");
-        console.log(projects);
         upDateTaskContainer(p.id);
     });
 })
 
+/**Check this to adjust tasklist */
 projectList.addEventListener("click", (e) => {
+
+    const taskList = document.getElementById("taskList");
     const target = e.target.innerText;
+
+    taskList.replaceChildren();
+    items = JSON.parse(localStorage.getItem(target));
+
+    //itemsArray.push(key);
+    console.log(target);
+    console.log(e.target.innerText);
+
+    for(let i = 0; i < items.task.length; i++){
+        taskList.appendChild(addTaskToContainer(items.task[i]));
+    }
     addTaskContainer.addEventListener("click", upDateTaskContainer(target));
-    /*if (target === "Default"){
-        main.replaceChildren();
+
+    if (target === "Default"){
+        console.log("Inside default")
+        //main.replaceChildren();
         //main.appendChild(createToDo("Default"));
         //addTaskContainer.addEventListener("click", openTaskFormContainer);
-    } */
+    } 
 });
 main.addEventListener("click", (e) => {
     const target = e.target.innerText;
-  
+    var head = document.getElementById("projectHeader");
+    const taskList = document.getElementById("taskList");
+    console.log("Showing target: " + target);
     if (target === "Add"){
-        const taskList = document.getElementById("taskList");
+        
         //const taskContainer = document.getElementById("taskContainer");
-        console.log("Add task");
+        //console.log("Add task");
         e.preventDefault();
 
-        taskList.append(addTaskToContainer());
+        var input = document.getElementById("addT").value;
+        taskList.append(addTaskToContainer(input));
+
+        taskInfo = JSON.parse(localStorage.getItem(head.textContent));
+        //console.log(taskInfo);
+        setTaskInfo(head.textContent, document.getElementById("addT").value);
         modalForm1.style.display = "none";
+
+        //const items = { ...localStorage };
+        //console.log(items);
         //addTask.addEventListener("click", addFormTask);
+        
     } 
     //content.appendChild(createHomePage());
     if (target === "Cancel"){
         e.preventDefault();
         modalForm1.style.display = "none";
     } 
+    if(e.target.checked){
+        var taskToDelete = e.target.parentNode.textContent;
+        var taskObj = JSON.parse(localStorage.getItem(head.textContent));
+        deleteTask(taskToDelete, taskObj);
+    }
 });
 
 
+//const e = document.querySelectorAll(".delete");
+/*
+.forEach(function(button) {
+    console.log("Inside delete" + button);
+    // Now do something with my button
+});
+*/
 /*******************New logic above */
 /*
 const addProject = document.getElementById("add-project");
@@ -260,78 +290,4 @@ window.onload = function () {
     
 };
 
-
-modalForm.style.display = "none";
-modalForm1.style.display = "none";
-
-function openTaskFormContainer(event){
-    console.log("Opening task container");
-    addTask = document.getElementById("addTask");
-    closeTask = document.getElementById("cancelTask");
-    //modalForm1 = document.getElementById("modal-form2");
-    modalForm1.style.display = "flex";
-}
-
-function closeForm(event){
-    event.preventDefault();
-    modalForm.style.display = "none";
-    console.log("Closed Form");
-}
-
-
-
-function openProjectForm(event){
-    event.preventDefault();
-    modalForm.style.display = "flex";
-}
-
-//check this
-function addP(event){
-    event.preventDefault();
-    const taskContainer = document.getElementById("taskContainer");
-    modalForm.style.display = "none";
-    //we want to replace the list and the header
-    sideBar.appendChild(addProjects());
-    taskContainer.replaceChildren();
-    //addTaskContainer = document.getElementById("addTaskContainer");
-    taskContainer.appendChild(createToDo(getProjectName()));
-}
-//main.replaceChildren();
-main.prepend(createToDo("Default"));
-
-
-
-//Check this 
-sideBar.addEventListener("click", (e) => {
-    const target = e.target.innerText;
-  
-    if (target === "Default"){
-        main.replaceChildren();
-        main.appendChild(createToDo("Default"));
-        //addTaskContainer.addEventListener("click", openTaskFormContainer);
-    } 
-});
-
-
-main.addEventListener("click", (e) => {
-    const target = e.target.innerText;
-  
-    if (target === "Add"){
-        const taskList = document.getElementById("taskList");
-        //const taskContainer = document.getElementById("taskContainer");
-        console.log("Add task");
-        e.preventDefault();
-
-        taskList.append(addTaskToContainer());
-        modalForm1.style.display = "none";
-        //addTask.addEventListener("click", addFormTask);
-    } 
-    //content.appendChild(createHomePage());
-    if (target === "Cancel"){
-        e.preventDefault();
-        modalForm1.style.display = "none";
-    } 
-  });
-
-//alert("Hello World");
 */

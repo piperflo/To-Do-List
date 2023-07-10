@@ -16,8 +16,7 @@ html, body{
 }
 #content{
     height: 100%;
-
-    
+ 
 }
 span{
     font-size: 18px;
@@ -68,6 +67,7 @@ span{
     flex-direction: column;
     width: 200px;
 }
+
 
 .tabs:hover{
     background-color: #bdafaf;
@@ -162,7 +162,12 @@ input{
     height: 60px;
     padding-left: 10px;
     align-items: center;
-    width: 100%;
+    width: 500px;
+    justify-content:space-between;
+    
+}
+.delete{
+    width: 30px;
 }
 .buttons{
     display: flex;
