@@ -42,8 +42,12 @@ span{
 #project-list > div{
     display: flex;
     /*height: 30px;*/
-    padding-bottom: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+ 
+    width: 100%;
     gap: 10px;
+    
 }
 #project-list > div > img{
     width: 20px;
@@ -69,13 +73,15 @@ span{
     width: 200px;
 }
 
-
+#projects-heading{
+    text-decoration: underline;
+}
 .tabs:hover{
     background-color: #bdafaf;
     cursor: pointer;
 }
 .project:hover{
-    background-color: #886464;
+    background-color: #bdafaf;
     cursor: pointer;
 }
 .modal-form{
