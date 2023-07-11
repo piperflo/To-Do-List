@@ -1,10 +1,9 @@
 //import { createHeader } from "./header";
-import { addProjects, getProjectName} from "./addProject";
+import { addProjects} from "./addProject";
 import { addTaskToContainer } from "./addTask";
 
 import './style.css';
 
-const sideBar = document.getElementById('side-bar');
 const addProject = document.getElementById("add-project");
 const add = document.getElementById("add");
 const close = document.getElementById("cancel");
@@ -12,24 +11,12 @@ const modalForm = document.getElementsByClassName("modal-form")[0];
 const modalForm1 = document.getElementById("modal-form2");
 const projectList = document.getElementById("project-list");
 const header = document.getElementById("projectHeader");
-const taskList = document.getElementById("taskList");
+
 const addTaskContainer = document.getElementById("addTaskContainer");
-//const deleteButtons = document.getElementsByClassName("delete");
-
-var projects = document.querySelectorAll(".project");
-
-var p = document.querySelectorAll(".project");
-var addTask ;
-var closeTask ;
 
 var items;
 var itemsArray = [];
-
-
 var all = document.getElementById("all");
-var inComplete = document.getElementById("incomplete");
-var complete = document.getElementById("complete");
-
 var taskInfo = {
     title: '',
     task: []
@@ -39,21 +26,17 @@ addProject.addEventListener("click", openProjectForm);
 close.addEventListener("click", closeForm);
 add.addEventListener("click", addP);
 addTaskContainer.addEventListener("click", openTaskFormContainer);
-
 all.addEventListener("click", showAll);
-//all.addEventListener("click", showAll);
-
 
 modalForm.style.display = "none";
 modalForm1.style.display = "none";
-
-
 
 upDateTaskContainer("Default");
 
 function showAll(){
     upDateTaskContainer("All");
     const taskList = document.getElementById("taskList");
+    taskList.replaceChildren();
     Object.keys(localStorage).forEach((key) => {
         items = JSON.parse(localStorage.getItem(key));
         itemsArray.push(key);
@@ -62,8 +45,8 @@ function showAll(){
             console.log(items.task[i]);
         }
     });
+    addTaskContainer.style.display = "none";
 }
-
 
 function addP(event){
     event.preventDefault();
@@ -82,8 +65,7 @@ function addP(event){
     const taskList = document.getElementById("taskList");
     taskList.replaceChildren();
     upDateTaskContainer(project);
-    //projects = document.querySelectorAll(".project");
-    //const project = document.getElementById("input").value;
+
     localStorage.setItem(project, JSON.stringify(emptyObj));
 
     
@@ -101,7 +83,6 @@ function openProjectForm(event){
 }
 
 function upDateTaskContainer(name){
-    //console.log("Updating header");
     header.textContent = name;
 }
 
@@ -110,15 +91,9 @@ function openTaskFormContainer(event){
     modalForm1.style.display = "flex";
 }
 
-function fillProjectList(){
-    for(let i = 0; i < itemsArray.length; i++){
-        console.log("Filling projects");
-        console.log(itemsArray[i]);
-        projectList.appendChild(addProjects(itemsArray[i].title));
-        //console.log(itemsArray[i].title);
-    } 
-}
-display();
+//display();
+//setDefault();
+
 //fillProjectList()
 function display(){
     Object.keys(localStorage).forEach((key) => {
@@ -129,6 +104,20 @@ function display(){
         //console.log(items);
         //var k = localStorage.getItem(key);
     });
+    /*
+    const project = "Default";
+    var emptyObj = {
+        title: project,
+        task: []
+    }
+
+    projectList.appendChild(addProjects(project));
+    const taskList = document.getElementById("taskList");
+    taskList.replaceChildren();
+    upDateTaskContainer(project);
+
+    localStorage.setItem(project, JSON.stringify(emptyObj));
+    */
 }
 
 function deleteTask(taskToDelete, taskObj){
@@ -162,7 +151,7 @@ console.log(it);
 
 });
 *///////////////////////////////////////////////////////////////////////////////////
-//localStorage.clear();
+localStorage.clear();
 const today = "today";
 const tomorrow = "tomorrow";
 
@@ -188,9 +177,10 @@ document.querySelectorAll(".project")
 /**Check this to adjust tasklist */
 projectList.addEventListener("click", (e) => {
 
+    addTaskContainer.style.display = "flex";
     const taskList = document.getElementById("taskList");
     const target = e.target.innerText;
-
+    console.log(target);
     taskList.replaceChildren();
     items = JSON.parse(localStorage.getItem(target));
 
@@ -229,10 +219,6 @@ main.addEventListener("click", (e) => {
         setTaskInfo(head.textContent, document.getElementById("addT").value);
         modalForm1.style.display = "none";
 
-        //const items = { ...localStorage };
-        //console.log(items);
-        //addTask.addEventListener("click", addFormTask);
-        
     } 
     //content.appendChild(createHomePage());
     if (target === "Cancel"){
@@ -279,15 +265,28 @@ add.addEventListener("click", addP);
 //modalForm1.style.display = "flex";
 console.log(modalForm);
 console.log(modalForm1);
+*/
 
 window.onload = function () {
-    
-    addTaskContainer = document.getElementById("addTaskContainer");
-    if (addTaskContainer) {
-        addTaskContainer.addEventListener("click", openTaskFormContainer);
-        
+    const itemSet = (localStorage.getItem('Default') !== null);
+
+    if (!itemSet)  {
+        console.log("It doesn't exist");
+        const project = "Default";
+        var emptyObj = {
+            title: project,
+            task: []
+        }
+
+        projectList.appendChild(addProjects(project));
+        //const taskList = document.getElementById("taskList");
+        //taskList.replaceChildren();
+        upDateTaskContainer(project);
+
+        localStorage.setItem(project, JSON.stringify(emptyObj));
     }
+
+    
     
 };
 
-*/
